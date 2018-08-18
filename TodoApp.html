@@ -1,6 +1,5 @@
 <html>
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
       body {
         background-color: white;
@@ -36,13 +35,13 @@
         display: flex;
       }
 
-      .completion-toggle{
+      .button{
         font-size: 20px; 
         margin: 5px auto;
         width: 150px; 
       }
 
-      .delete-button{
+      .button{
         font-size: 20px;
         margin: 5px auto;
         width:150px;
@@ -51,17 +50,39 @@
       .disabled {
         opacity: 0.5;
       }
+      
+      .todo-form{
+        display: flex;
+        flex-direction: column;
+        width: 400px;
+        margin: 10px auto;
+      }
+
+      .form-field{
+        font-size: 20px;
+        text-align: center;
+      }
+
+      .submit-button{
+        font-size: 20px;
+        margin: 5px auto;
+        width: 400px;
+        /* border: 1px solid white; */
+        color: white;
+        background-color: #0D5863;
+        text-align: center;
+        padding-top: 8px;
+        padding-bottom: 8px;
+      }
 
     </style>
-<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
-<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
   </head>
   <body>
     <div id="root"></div>
-  
-   <script type="text/babel">
-      
+  <script type="text/babel">
       class TodoList extends React.Component {
         constructor(props){
           super(props);
@@ -72,10 +93,10 @@
                        }
           this.deleteTodo = this.deleteTodo.bind(this)
           this.handleComplete = this.handleComplete.bind(this)
+          this.handleSubmit = this.handleSubmit.bind(this)
           //  add this line to ensure that the delete/handleComplete function has access to the state of the parent
         }
-//         mark complete
-//         delete a todo
+
         deleteTodo(e, description, idx){
           // we pass in the description so we can find it in the state later
 
@@ -121,6 +142,23 @@
 
           this.setState({todos: newTodos});
         }
+
+        handleSubmit(e, newTodo, cb){
+          e.preventDefault();
+          if (newTodo.description.length === 0) {
+            alert("Description Can't Be Blank")
+          } else{
+            let newTodoList = this.state.todos.slice();
+            newTodoList.push(newTodo);
+            
+            this.setState({todos: newTodoList})
+            
+            cb()
+            // with the addition of a state management library like Redux, 
+            // this is definitely something that would be placed as a callback to a promise 
+            // thus ensuring that it only gets called when the todo has actually been saved or accepted
+          }
+        }
         
         render(){
           let todos = this.state.todos.map((todo, i)=> 
@@ -138,6 +176,7 @@
             <div className="list-items">
               {todos}
             </div>
+            <TodoForm handleSubmit={this.handleSubmit} />
            </div>
           )
         }
@@ -181,11 +220,39 @@
           <div className="todo-item">
             <h2 className="item-header" >{todo.description}</h2>
             <div className="item-buttons">
-              <input className={"completion-toggle" + ` ${disabled}`} type="submit" value ={completedVar} onClick={e=> handleComplete(e, todo.description, index)} />
-              <input className="delete-button" type="submit" value="Delete?" onClick={e=> deleteTodo(e, todo.description, index)} /> 
+              <input className={"button" + ` ${disabled}`} type="submit" value ={completedVar} onClick={e=> handleComplete(e, todo.description, index)} />
+              <input className="button" type="submit" value="Delete?" onClick={e=> deleteTodo(e, todo.description, index)} /> 
             </div>
           </div>
         )
+      }
+
+      class TodoForm extends React.Component {
+        constructor(props){
+          super(props);
+
+          this.state = {description: "",
+                        complete: false};
+          this.handleSubmit = this.props.handleSubmit;
+          this.clearField = this.clearField.bind(this);
+
+        }
+        update(field){
+          return e => this.setState({[field]: e.target.value});
+        }
+
+        clearField(){
+          this.setState({description: "", complete: false})
+        }
+
+        render(){
+          return(
+            <div className="todo-form" >
+              <input className="form-field" type="text" placeholder="Write your Todo's description here!" value={this.state.description} onChange={this.update("description")}/>
+              <div className="submit-button" onClick={e=> this.handleSubmit(e, this.state, this.clearField)}>Add Todo</div>
+            </div>
+          )
+        }
       }
       
       ReactDOM.render(<TodoList />, document.getElementById("root"))
