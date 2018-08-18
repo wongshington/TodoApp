@@ -22,12 +22,30 @@
                         [{description: "walk dog", complete: false }, 
                          {description: "brush teeth", complete: false}]
                        }
+          this.deleteTodo = this.deleteTodo.bind(this)
+          //  add this line to ensure that the delete function has access to the state of the parent
         }
 //         mark complete
 //         delete a todo
-        deleteTodo(e){
+        deleteTodo(e, description){
+
           e.preventDefault();
           console.log("delete")
+
+          let newTodos = this.state.todos.slice()
+          // make a copy of the todos
+          newTodos = newTodos.reduce((acc, curr)=>{
+
+            if (curr.description !== description){
+
+              acc.push(curr)
+            }
+              return acc
+          }, [])
+          // filter out the one selected for deletion
+
+          this.setState({todos: newTodos})
+
         }
         
         handleComplete(){
@@ -36,7 +54,7 @@
         
         
         render(){
-          let todos = this.state.todos.map((todo, i)=> <TodoListItem key={todo.description} deleteTodo={this.deleteTodo} handleCompelte={this.handleComplete} todo={todo} /> )
+          let todos = this.state.todos.map((todo, i)=> <TodoListItem key={todo.description} deleteTodo={this.deleteTodo} handleComplete={this.handleComplete} todo={todo} /> )
 //       pass down mark complete and delete functions
           return(
             <div>
@@ -52,18 +70,18 @@
       class TodoListItem extends React.Component{
         constructor(props){
           super(props)       
-          this.state = this.props.todo;
-          this.deleter = this.props.deleteTodo.bind(this);
+          // this.state = this.props.todo;
+          this.deleteTodo = this.props.deleteTodo.bind(this)
           this.handleComplete = this.props.handleComplete.bind(this);
         }
          
         render(){
-          let todo = this.state;         
+          let todo = this.props.todo;         
           return (
             <div>
               <h2>{todo.description}</h2>
               <input onClick={this.handleComplete} />
-              <button value="Delete Todo?" onClick={()=>{console.log("delete")}} /> 
+              <input type="submit" value="Delete Todo?" onClick={e=> this.deleteTodo(e, todo.description)} /> 
             </div>
           )
         }
@@ -79,3 +97,9 @@
 <!-- todo list component -->
 <!-- todo component -->
 hello
+
+Finish writing the function to delete a todo
+finish writing the function to mark a todo as completed
+convert the stateful TodoListItem Component to a functional component
+optimizations
+style the todo list items
