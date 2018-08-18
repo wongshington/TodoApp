@@ -1,0 +1,81 @@
+<html>
+  <head>
+    <style>
+      body {
+        background-color: #1d2126;
+        color: white;
+      }
+    </style>
+<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"> </div>
+  
+   <script type="text/babel">
+      
+      class TodoList extends React.Component {
+        constructor(props){
+          super(props);
+          this.state = {todos: 
+                        [{description: "walk dog", complete: false }, 
+                         {description: "brush teeth", complete: false}]
+                       }
+        }
+//         mark complete
+//         delete a todo
+        deleteTodo(e){
+          e.preventDefault();
+          console.log("delete")
+        }
+        
+        handleComplete(){
+//           
+        }
+        
+        
+        render(){
+          let todos = this.state.todos.map((todo, i)=> <TodoListItem key={todo.description} deleteTodo={this.deleteTodo} handleCompelte={this.handleComplete} todo={todo} /> )
+//       pass down mark complete and delete functions
+          return(
+            <div>
+            <div>inside</div> 
+            // {todos}
+           </div>
+          )
+        }
+      }
+    
+//       todolistitem
+      
+      class TodoListItem extends React.Component{
+        constructor(props){
+          super(props)       
+          this.state = this.props.todo;
+          this.deleter = this.props.deleteTodo.bind(this);
+          this.handleComplete = this.props.handleComplete.bind(this);
+        }
+         
+        render(){
+          let todo = this.state;         
+          return (
+            <div>
+              <h2>{todo.description}</h2>
+              <input onClick={this.handleComplete} />
+              <button value="Delete Todo?" onClick={()=>{console.log("delete")}} /> 
+            </div>
+          )
+        }
+      }
+      
+      
+      
+      ReactDOM.render(<TodoList />, document.getElementById("root"))
+    </script>
+    </body>
+</html>
+
+<!-- todo list component -->
+<!-- todo component -->
+hello
