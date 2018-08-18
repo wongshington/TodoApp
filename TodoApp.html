@@ -1,17 +1,64 @@
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
       body {
-        background-color: #1d2126;
-        color: white;
+        background-color: white;
+        color: black;
+        font-family: sans-serif;
       }
+      
+      .header {
+        margin: 10px auto;
+        text-align: center;
+      }
+
+      .list-items{
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        margin: 0 auto;
+      }
+      
+      .todo-item{
+        margin: 5px auto;
+        border: 1px solid black;
+        background-color: #0D5863;
+        width: 350px;
+      }
+
+      .item-header{
+        color: white;
+        text-align: center;
+      }
+      
+      .item-buttons {
+        display: flex;
+      }
+
+      .completion-toggle{
+        font-size: 20px; 
+        margin: 5px auto;
+        width: 150px; 
+      }
+
+      .delete-button{
+        font-size: 20px;
+        margin: 5px auto;
+        width:150px;
+      }
+
+      .disabled {
+        opacity: 0.5;
+      }
+
     </style>
 <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
 <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
   </head>
   <body>
-    <div id="root"> </div>
+    <div id="root"></div>
   
    <script type="text/babel">
       
@@ -19,8 +66,9 @@
         constructor(props){
           super(props);
           this.state = {todos: 
-                        [{description: "walk dog", complete: false }, 
-                         {description: "brush teeth", complete: false}]
+                        [{description: "Walk dog", complete: false }, 
+                         {description: "Brush teeth", complete: true},
+                         {description: "Do laundry", complete: false}]
                        }
           this.deleteTodo = this.deleteTodo.bind(this)
           this.handleComplete = this.handleComplete.bind(this)
@@ -50,7 +98,6 @@
           // // filter out the one selected for deletion
 
           this.setState({todos: newTodos})
-
         }
         
         handleComplete(e, description, idx){
@@ -75,29 +122,26 @@
           this.setState({todos: newTodos});
         }
         
-        
         render(){
           let todos = this.state.todos.map((todo, i)=> 
-                      <TodoListItemFunctional key={todo.description}
+                      <TodoListItemFunctional 
+                        key={todo.description}
                         index= {i}
                         deleteTodo={this.deleteTodo} 
                         handleComplete={this.handleComplete} 
                         todo={todo} 
                       /> )
 
-//       pass down mark complete and delete functions
           return(
             <div>
-            <div>inside</div> 
-            // {todos}
+            <h1 className="header">Today's TODOs!</h1> 
+            <div className="list-items">
+              {todos}
+            </div>
            </div>
           )
         }
       }
-    
-//       todolistitem
-      
-
 
       class TodoListItem extends React.Component {
         // this is the implementation for a stateful component, 
@@ -107,7 +151,7 @@
         constructor(props){
           super(props)       
           // this.state = this.props.todo;
-          // we don't need this above line if we plan to let the parent manage the state
+          // we don't have to have this above line if we plan to let the parent manage the state
           this.deleteTodo = this.props.deleteTodo.bind(this)
           this.handleComplete = this.props.handleComplete.bind(this);
         }
@@ -115,12 +159,12 @@
         render(){
           let todo = this.props.todo;         
           let index = this.props.index
-          let completedVar = todo.complete ? "Completed" : "In Progress";
+          let completedVar = todo.complete ? "Completed" : "Mark Complete?";
           return (
             <div>
               <h2>{todo.description}</h2>
               <input type="submit" value ={completedVar} onClick={e=> this.handleComplete(e, todo.description, index)} />
-              <input type="submit" value="Delete Todo?" onClick={e=> this.deleteTodo(e, todo.description, index)} /> 
+              <input type="submit" value="Delete?" onClick={e=> this.deleteTodo(e, todo.description, index)} /> 
             </div>
           )
         }
@@ -129,12 +173,17 @@
       const TodoListItemFunctional = ({todo, deleteTodo, handleComplete, index}) => {
         // for such a basic component like this we could alternatively use a functional component 
         // and defer all prop management to the parent
-        let completedVar = todo.complete ? "Completed" : "In Progress";
+        let completedVar = todo.complete ? "Completed" : "Mark Complete?";
+        let disabled = todo.complete ? "disabled" : "";
+        // add the class for disabled if a todo is marked as complete
+
         return (
-          <div>
-            <h2>{todo.description}</h2>
-              <input type="submit" value ={completedVar} onClick={e=> handleComplete(e, todo.description, index)} />
-              <input type="submit" value="Delete Todo?" onClick={e=> deleteTodo(e, todo.description, index)} /> 
+          <div className="todo-item">
+            <h2 className="item-header" >{todo.description}</h2>
+            <div className="item-buttons">
+              <input className={"completion-toggle" + ` ${disabled}`} type="submit" value ={completedVar} onClick={e=> handleComplete(e, todo.description, index)} />
+              <input className="delete-button" type="submit" value="Delete?" onClick={e=> deleteTodo(e, todo.description, index)} /> 
+            </div>
           </div>
         )
       }
@@ -144,12 +193,3 @@
     </body>
 </html>
 
-<!-- todo list component -->
-<!-- todo component -->
-hello
-
-<!-- Finish writing the function to delete a todo -->
-<!-- finish writing the function to mark a todo as completed -->
-<!-- convert the stateful TodoListItem Component to a functional component -->
-<!-- optimizations -->
-style the todo list items
