@@ -23,11 +23,13 @@
                          {description: "brush teeth", complete: false}]
                        }
           this.deleteTodo = this.deleteTodo.bind(this)
-          //  add this line to ensure that the delete function has access to the state of the parent
+          this.handleComplete = this.handleComplete.bind(this)
+          //  add this line to ensure that the delete/handleComplete function has access to the state of the parent
         }
 //         mark complete
 //         delete a todo
         deleteTodo(e, description){
+          // we pass in the description so we can find it in the state later
 
           e.preventDefault();
           console.log("delete")
@@ -37,7 +39,6 @@
           newTodos = newTodos.reduce((acc, curr)=>{
 
             if (curr.description !== description){
-
               acc.push(curr)
             }
               return acc
@@ -48,8 +49,21 @@
 
         }
         
-        handleComplete(){
-//           
+        handleComplete(e, description){
+          e.preventDefault();
+          console.log("toggle complete");
+          let newTodos = this.state.todos.slice();
+          // copy todos
+          newTodos = newTodos.reduce((acc, curr)=> {
+
+              if (curr.description === description){
+                curr.completed = !(curr.completed)
+              }
+              acc.push(curr)
+              return acc
+          }, [] )
+
+          this.setState({todos: newTodos});
         }
         
         
@@ -77,10 +91,11 @@
          
         render(){
           let todo = this.props.todo;         
+          let completedVar = todo.completed ? "Completed" : "In Progress";
           return (
             <div>
               <h2>{todo.description}</h2>
-              <input onClick={this.handleComplete} />
+              <input type="submit" value ={completedVar} onClick={e=> this.handleComplete(e, todo.description)} />
               <input type="submit" value="Delete Todo?" onClick={e=> this.deleteTodo(e, todo.description)} /> 
             </div>
           )
