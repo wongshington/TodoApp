@@ -28,7 +28,7 @@
         }
 //         mark complete
 //         delete a todo
-        deleteTodo(e, description){
+        deleteTodo(e, description, idx){
           // we pass in the description so we can find it in the state later
 
           e.preventDefault();
@@ -36,32 +36,41 @@
 
           let newTodos = this.state.todos.slice()
           // make a copy of the todos
-          newTodos = newTodos.reduce((acc, curr)=>{
+          newTodos.splice(idx, 1)
+          // we don't need to iterate over the array to find the one to delete if we pass the index to the function
+          // we can then ignore the description argument or remove it if we want to
 
-            if (curr.description !== description){
-              acc.push(curr)
-            }
-              return acc
-          }, [])
-          // filter out the one selected for deletion
+          // newTodos = newTodos.reduce((acc, curr)=>{
+
+          //   if (curr.description !== description){
+          //     acc.push(curr)
+          //   }
+          //     return acc
+          // }, [])
+          // // filter out the one selected for deletion
 
           this.setState({todos: newTodos})
 
         }
         
-        handleComplete(e, description){
+        handleComplete(e, description, idx){
           e.preventDefault();
           console.log("toggle complete");
           let newTodos = this.state.todos.slice();
           // copy todos
-          newTodos = newTodos.reduce((acc, curr)=> {
 
-              if (curr.description === description){
-                curr.completed = !(curr.completed)
-              }
-              acc.push(curr)
-              return acc
-          }, [] )
+          newTodos[idx].complete = !newTodos[idx].complete
+          // we can avoid iterating over the array of todos if we pass the index in
+          // and we no longer need the description argument
+
+          // newTodos = newTodos.reduce((acc, curr)=> {
+
+          //     if (curr.description === description){
+          //       curr.completed = !(curr.completed)
+          //     }
+          //     acc.push(curr)
+          //     return acc
+          // }, [] )
 
           this.setState({todos: newTodos});
         }
@@ -69,7 +78,8 @@
         
         render(){
           let todos = this.state.todos.map((todo, i)=> 
-                      <TodoListItemFunctional key={todo.description} 
+                      <TodoListItemFunctional key={todo.description}
+                        index= {i}
                         deleteTodo={this.deleteTodo} 
                         handleComplete={this.handleComplete} 
                         todo={todo} 
@@ -104,31 +114,30 @@
          
         render(){
           let todo = this.props.todo;         
-          let completedVar = todo.completed ? "Completed" : "In Progress";
+          let index = this.props.index
+          let completedVar = todo.complete ? "Completed" : "In Progress";
           return (
             <div>
               <h2>{todo.description}</h2>
-              <input type="submit" value ={completedVar} onClick={e=> this.handleComplete(e, todo.description)} />
-              <input type="submit" value="Delete Todo?" onClick={e=> this.deleteTodo(e, todo.description)} /> 
+              <input type="submit" value ={completedVar} onClick={e=> this.handleComplete(e, todo.description, index)} />
+              <input type="submit" value="Delete Todo?" onClick={e=> this.deleteTodo(e, todo.description, index)} /> 
             </div>
           )
         }
       }
 
-      const TodoListItemFunctional = ({todo, deleteTodo, handleComplete}) => {
+      const TodoListItemFunctional = ({todo, deleteTodo, handleComplete, index}) => {
         // for such a basic component like this we could alternatively use a functional component 
         // and defer all prop management to the parent
-        let completedVar = todo.completed ? "Completed" : "In Progress";
+        let completedVar = todo.complete ? "Completed" : "In Progress";
         return (
           <div>
             <h2>{todo.description}</h2>
-              <input type="submit" value ={completedVar} onClick={e=> handleComplete(e, todo.description)} />
-              <input type="submit" value="Delete Todo?" onClick={e=> deleteTodo(e, todo.description)} /> 
+              <input type="submit" value ={completedVar} onClick={e=> handleComplete(e, todo.description, index)} />
+              <input type="submit" value="Delete Todo?" onClick={e=> deleteTodo(e, todo.description, index)} /> 
           </div>
         )
       }
-      
-      
       
       ReactDOM.render(<TodoList />, document.getElementById("root"))
     </script>
@@ -142,5 +151,5 @@ hello
 <!-- Finish writing the function to delete a todo -->
 <!-- finish writing the function to mark a todo as completed -->
 <!-- convert the stateful TodoListItem Component to a functional component -->
-optimizations
+<!-- optimizations -->
 style the todo list items
