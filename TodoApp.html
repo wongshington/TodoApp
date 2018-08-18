@@ -68,7 +68,13 @@
         
         
         render(){
-          let todos = this.state.todos.map((todo, i)=> <TodoListItem key={todo.description} deleteTodo={this.deleteTodo} handleComplete={this.handleComplete} todo={todo} /> )
+          let todos = this.state.todos.map((todo, i)=> 
+                      <TodoListItemFunctional key={todo.description} 
+                        deleteTodo={this.deleteTodo} 
+                        handleComplete={this.handleComplete} 
+                        todo={todo} 
+                      /> )
+
 //       pass down mark complete and delete functions
           return(
             <div>
@@ -81,10 +87,17 @@
     
 //       todolistitem
       
-      class TodoListItem extends React.Component{
+
+
+      class TodoListItem extends React.Component {
+        // this is the implementation for a stateful component, 
+        // but for something this straight forward, 
+        // we could probably pivot this to a functional component
+      
         constructor(props){
           super(props)       
           // this.state = this.props.todo;
+          // we don't need this above line if we plan to let the parent manage the state
           this.deleteTodo = this.props.deleteTodo.bind(this)
           this.handleComplete = this.props.handleComplete.bind(this);
         }
@@ -101,6 +114,19 @@
           )
         }
       }
+
+      const TodoListItemFunctional = ({todo, deleteTodo, handleComplete}) => {
+        // for such a basic component like this we could alternatively use a functional component 
+        // and defer all prop management to the parent
+        let completedVar = todo.completed ? "Completed" : "In Progress";
+        return (
+          <div>
+            <h2>{todo.description}</h2>
+              <input type="submit" value ={completedVar} onClick={e=> handleComplete(e, todo.description)} />
+              <input type="submit" value="Delete Todo?" onClick={e=> deleteTodo(e, todo.description)} /> 
+          </div>
+        )
+      }
       
       
       
@@ -113,8 +139,8 @@
 <!-- todo component -->
 hello
 
-Finish writing the function to delete a todo
-finish writing the function to mark a todo as completed
-convert the stateful TodoListItem Component to a functional component
+<!-- Finish writing the function to delete a todo -->
+<!-- finish writing the function to mark a todo as completed -->
+<!-- convert the stateful TodoListItem Component to a functional component -->
 optimizations
 style the todo list items
