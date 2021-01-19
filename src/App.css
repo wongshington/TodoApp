@@ -1,0 +1,74 @@
+      body {
+        background-color: white;
+        color: black;
+        font-family: sans-serif;
+      }
+      
+      .header {
+        margin: 10px auto;
+        text-align: center;
+      }
+
+      .list-items{
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        margin: 0 auto;
+      }
+      
+      .todo-item{
+        margin: 5px auto;
+        border: 1px solid black;
+        background-color: #0D5863;
+        width: 350px;
+      }
+
+      .item-header{
+        color: white;
+        text-align: center;
+      }
+      
+      .item-buttons {
+        display: flex;
+      }
+
+      .button{
+        font-size: 20px; 
+        margin: 5px auto;
+        width: 150px; 
+      }
+
+      .button{
+        font-size: 20px;
+        margin: 5px auto;
+        width:150px;
+      }
+
+      .disabled {
+        opacity: 0.5;
+      }
+      
+      .todo-form{
+        display: flex;
+        flex-direction: column;
+        width: 400px;
+        margin: 10px auto;
+      }
+
+      .form-field{
+        font-size: 20px;
+        text-align: center;
+      }
+
+      .submit-button{
+        font-size: 20px;
+        margin: 5px auto;
+        width: 400px;
+        /* border: 1px solid white; */
+        color: white;
+        background-color: #0D5863;
+        text-align: center;
+        padding-top: 8px;
+        padding-bottom: 8px;
+      }
+
