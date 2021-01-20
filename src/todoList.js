@@ -1,6 +1,8 @@
 import React from "react";
 import "./App.css";
 
+import Grid from "@material-ui/core/Grid";
+
 import TodoItem from "./todoItem.js";
 import TodoForm from "./todoForm.js";
 
@@ -90,20 +92,24 @@ class TodoList extends React.Component {
 		let todos = [];
 		if (this.state.todos) {
 			todos = this.state.todos.map((todo, i) => (
-				<TodoItem
-					key={todo.description}
-					index={i}
-					deleteTodo={this.deleteTodo}
-					handleComplete={this.handleComplete}
-					todo={todo}
-				/>
+				<Grid item>
+					<TodoItem
+						key={todo.description}
+						index={i}
+						deleteTodo={this.deleteTodo}
+						handleComplete={this.handleComplete}
+						todo={todo}
+					/>
+				</Grid>
 			));
 		}
 
 		return (
 			<div>
-				<h1 className="header">Today's TODOs!</h1>
-				<div className="list-items">{todos}</div>
+				<h3 className="header">Today's TODOs!</h3>
+				<Grid container className="list-items">
+					{todos}
+				</Grid>
 				{/* <TodoForm handleSubmit={this.handleSubmit} /> */}
 			</div>
 		);

@@ -1,12 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import TodoList from "./todoList";
+import NavBar from "./navBar";
 import TodoMatrix from "./todoMatrix";
 import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
 	<React.StrictMode>
+		<NavBar />
 		<TodoMatrix />
 	</React.StrictMode>,
 	document.getElementById("root")

@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "@material-ui/core/Button";
 
 class TodoForm extends React.Component {
 	constructor(props) {
@@ -43,12 +44,14 @@ class TodoForm extends React.Component {
 					value={this.state.description}
 					onChange={this.update("description")}
 				/>
-				<div
-					className="submit-button"
+				<Button
+					variant="contained"
+					color="primary"
+					// className="submit-button"
 					onClick={(e) => this.handleSubmit(e, this.state, this.clearField)}
 				>
 					Add Todo
-				</div>
+				</Button>
 			</div>
 		);
 	}

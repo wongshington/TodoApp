@@ -1,6 +1,11 @@
+import { useState, useEffect } from "react";
+
+import Grid from "@material-ui/core/Grid";
+
 import TodoList from "./todoList";
 import TodoForm from "./todoForm";
-import { useState, useEffect } from "react";
+
+// https://reactjs.org/docs/hooks-effect.html#tip-optimizing-performance-by-skipping-effects
 
 const TodoMatrix = (props) => {
 	//
@@ -36,11 +41,25 @@ const TodoMatrix = (props) => {
 	return (
 		<div className="matrix">
 			<div>
-				<TodoList todos={todos} />
-				<TodoList />
+				<Grid
+					container
+					direction="row"
+					// alignItems="center"
+					justify="center"
+					spacing={2}
+					className="matrix"
+				>
+					<Grid item className="list">
+						<TodoList todos={todos} />
+					</Grid>
+					<Grid item>
+						<TodoList todos={todos} />
+					</Grid>
+				</Grid>
 				<div className="save-button" onClick={saveTodos}>
 					Save Button
 				</div>
+
 				<TodoForm />
 			</div>
 		</div>
