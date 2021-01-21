@@ -44,7 +44,6 @@ const TodoMatrix = (props) => {
 				<Grid
 					container
 					direction="row"
-					// alignItems="center"
 					justify="center"
 					spacing={2}
 					className="matrix"
@@ -59,7 +58,6 @@ const TodoMatrix = (props) => {
 				<div className="save-button" onClick={saveTodos}>
 					Save Button
 				</div>
-
 				<TodoForm />
 			</div>
 		</div>
