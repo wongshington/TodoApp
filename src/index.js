@@ -7,7 +7,9 @@ import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
 	<React.StrictMode>
-		<NavBar />
+		<header>
+			<NavBar />
+		</header>
 		<TodoMatrix />
 	</React.StrictMode>,
 	document.getElementById("root")

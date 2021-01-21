@@ -4,10 +4,10 @@
         font-family: sans-serif;
       }
       
-      .header {
+      /* .header {
         margin: 10px auto;
         text-align: center;
-      }
+      } */
 
       .list-items{
         display: flex;
