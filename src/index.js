@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import NavBar from "./navBar";
-import TodoMatrix from "./todoMatrix";
+import NavBar from "./nav/navBar";
+import TodoMatrix from "./todos/todoMatrix";
 import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
