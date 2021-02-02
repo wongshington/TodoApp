@@ -109,7 +109,6 @@ class TodoList extends React.Component {
 				<Grid container className="list-items">
 					{todos}
 				</Grid>
-				{/* <TodoForm handleSubmit={this.handleSubmit} /> */}
 			</div>
 		);
 	}

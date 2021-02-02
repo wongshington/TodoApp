@@ -10,10 +10,6 @@ import TodoForm from "./todoForm";
 const TodoMatrix = (props) => {
 	let sampleTod = { complete: false, description: "Walk the Dog", listId: 1 };
 	const [todos, setTodos] = useState({ 1: [sampleTod] });
-	// const [todos, setTodos] = useState([
-	// 	sampleTod,
-	// 	{ ...sampleTod, description: "Talk on the phone" },
-	// ]);
 
 	function setupStorage() {
 		let storage = window.localStorage;
@@ -24,10 +20,14 @@ const TodoMatrix = (props) => {
 		// let lists = storage.getItem("lists");
 		// lists = JSON.parse(lists);
 	}
-	useEffect(() => {
-		// comp did mount
-		setupStorage();
-	}, []);
+	// useEffect(() => {
+	// 	// comp did mount
+	// 	// setupStorage();
+	// 	() => {
+	// 		console.log("Unmounting...");
+	// 	};
+	// }, []);
+
 	useEffect(() => {
 		console.log("todos", todos);
 	}, [todos]);
@@ -43,23 +43,20 @@ const TodoMatrix = (props) => {
 		return errs;
 	}
 
-	function saveTodos(e, newTodo) {
-		e.preventDefault();
+	function saveTodos(newTodo) {
+		let newObj = JSON.parse(JSON.stringify(todos));
+		const errs = validTodo(newTodo);
 
-		let newObj;
-
-		let errs = validTodo(newTodo);
 		if (errs.length == 0) {
 			// save todo into todos
-			newObj = { ...todos };
-			newObj[newTodo.listId] = [...todos[newTodo.listId]].push(newTodo);
+
+			newObj[newTodo.listId].push(newTodo);
 		} else {
 			console.log("these are the todo errors...", errs);
 		}
 
 		let storage = window.localStorage;
-
-		let jsonTodos = JSON.stringify(todos);
+		let jsonTodos = JSON.stringify(newObj);
 		storage.setItem("todos", jsonTodos);
 		setTodos(newObj);
 
@@ -71,7 +68,7 @@ const TodoMatrix = (props) => {
 			<TodoList todos={list} />
 		</Grid>
 	));
-
+	console.log("render", todos);
 	return (
 		<div className="matrix">
 			<div>
