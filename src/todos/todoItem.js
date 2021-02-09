@@ -28,7 +28,7 @@ const TodoItem = ({ todo, deleteTodo, handleComplete, index }) => {
 					size="medium"
 					variant="contained"
 					disabled={todo.complete}
-					onClick={(e) => handleComplete(e, todo.description, index)}
+					onClick={(e) => handleComplete(e, index)}
 				>
 					{todo.complete ? (
 						<CheckBoxIcon aria-label="undo to do" />
@@ -40,7 +40,7 @@ const TodoItem = ({ todo, deleteTodo, handleComplete, index }) => {
 					color="secondary"
 					size="medium"
 					variant="contained"
-					onClick={(e) => deleteTodo(e, todo.description, index)}
+					onClick={(e) => deleteTodo(e, index)}
 				>
 					<DeleteIcon aria-label="delete to do" />
 				</IconButton>

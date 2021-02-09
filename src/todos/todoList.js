@@ -6,6 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import TodoItem from "./todoItem.js";
 // import TodoForm from "./todoForm.js";
 
+// list gets their own list info from storage
 class TodoList extends React.Component {
 	constructor(props) {
 		super(props);
@@ -13,43 +14,29 @@ class TodoList extends React.Component {
 
 		this.deleteTodo = this.deleteTodo.bind(this);
 		this.handleComplete = this.handleComplete.bind(this);
-		this.handleSubmit = this.handleSubmit.bind(this);
+		// this.handleSubmit = this.handleSubmit.bind(this);
 		//  add this line to ensure that the delete/handleComplete function has access to the state of the parent
 	}
 
 	componentWillReceiveProps(nextProps) {
 		console.log("nextProps", nextProps);
 		if (nextProps.todos) {
-			// how often does this run?
 			this.setState(nextProps);
 		}
 	}
 
-	deleteTodo(e, description, idx) {
-		// we pass in the description so we can find it in the state later
-
+	deleteTodo(e, idx) {
 		e.preventDefault();
 		console.log("delete");
 
-		let newTodos = this.state.todos.slice();
-		// make a copy of the todos
+		let newTodos = [...this.state.todos];
 		newTodos.splice(idx, 1);
-		// we don't need to iterate over the array to find the one to delete if we pass the index to the function
-		// we can then ignore the description argument or remove it if we want to
-
-		// newTodos = newTodos.reduce((acc, curr)=>{
-
-		//   if (curr.description !== description){
-		//     acc.push(curr)
-		//   }
-		//     return acc
-		// }, [])
-		// // filter out the one selected for deletion
+		console.log(newTodos);
 
 		this.setState({ todos: newTodos });
 	}
 
-	handleComplete(e, description, idx) {
+	handleComplete(e, idx) {
 		e.preventDefault();
 		console.log("toggle complete");
 		let newTodos = this.state.todos.slice();
@@ -71,22 +58,22 @@ class TodoList extends React.Component {
 		this.setState({ todos: newTodos });
 	}
 
-	handleSubmit(e, newTodo, cb) {
-		e.preventDefault();
-		if (newTodo.description.length === 0) {
-			alert("Description Can't Be Blank");
-		} else {
-			let newTodoList = this.state.todos.slice();
-			newTodoList.push(newTodo);
+	// handleSubmit(e, newTodo, cb) {
+	// 	e.preventDefault();
+	// 	if (newTodo.description.length === 0) {
+	// 		alert("Description Can't Be Blank");
+	// 	} else {
+	// 		let newTodoList = this.state.todos.slice();
+	// 		newTodoList.push(newTodo);
 
-			this.setState({ todos: newTodoList });
+	// 		this.setState({ todos: newTodoList });
 
-			cb();
-			// with the addition of a state management library like Redux,
-			// this is definitely something that would be placed as a callback to a promise
-			// thus ensuring that it only gets called when the todo has actually been saved or accepted
-		}
-	}
+	// 		cb();
+	// 		// with the addition of a state management library like Redux,
+	// 		// this is definitely something that would be placed as a callback to a promise
+	// 		// thus ensuring that it only gets called when the todo has actually been saved or accepted
+	// 	}
+	// }
 
 	render() {
 		let todos = [];
@@ -105,7 +92,7 @@ class TodoList extends React.Component {
 
 		return (
 			<div>
-				<h3 className="header">Today's TODOs!</h3>
+				<h3 className="header">{this.props.name}</h3>
 				<Grid container className="list-items">
 					{todos}
 				</Grid>

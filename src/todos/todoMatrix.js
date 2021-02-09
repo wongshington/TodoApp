@@ -1,15 +1,33 @@
 import { useState, useEffect } from "react";
 
 import Grid from "@material-ui/core/Grid";
+import ToolBar from "@material-ui/core/ToolBar";
 
+import { save } from "../utilities/localStorage";
 import TodoList from "./todoList";
 import TodoForm from "./todoForm";
 
 // https://reactjs.org/docs/hooks-effect.html#tip-optimizing-performance-by-skipping-effects
 
+// matrix creates the right amount of list components
 const TodoMatrix = (props) => {
 	let sampleTod = { complete: false, description: "Walk the Dog", listId: 1 };
-	const [todos, setTodos] = useState({ 1: [sampleTod] });
+	let sampleTod2 = { complete: false, description: "Dalk the Wog", listId: 2 };
+	let sampleTod3 = { complete: false, description: "Talk dhe Wog", listId: 3 };
+	const [todos, setTodos] = useState({
+		1: [sampleTod],
+		2: [sampleTod2],
+		3: [sampleTod3],
+	});
+
+	let sampleList = { id: 1, name: "List #1", color: "green" };
+	let sampleList2 = { id: 2, name: "List #2", color: "purple" };
+	let sampleList3 = { id: 3, name: "List #3", color: "cyan" };
+	const [lists, setLists] = useState({
+		1: sampleList,
+		2: sampleList2,
+		3: sampleList3,
+	});
 
 	function setupStorage() {
 		let storage = window.localStorage;
@@ -55,22 +73,21 @@ const TodoMatrix = (props) => {
 			console.log("these are the todo errors...", errs);
 		}
 
-		let storage = window.localStorage;
-		let jsonTodos = JSON.stringify(newObj);
-		storage.setItem("todos", jsonTodos);
+		save("todos", newObj);
 		setTodos(newObj);
 
 		console.log("Saved...");
 	}
 
-	let todoLists = Object.values(todos).map((list) => (
-		<Grid key={`id: ${todos[list[0].listId]}`} item className="list">
-			<TodoList todos={list} />
+	let todoLists = Object.values(lists).map((list) => (
+		<Grid key={`id: ${todos[list.id]}`} item className="list">
+			<TodoList todos={todos[list.id]} name={list.name} color={list.color} />
 		</Grid>
 	));
-	console.log("render", todos);
+
 	return (
 		<div className="matrix">
+			<ToolBar />
 			<div>
 				<Grid
 					container
@@ -89,3 +106,5 @@ const TodoMatrix = (props) => {
 };
 
 export default TodoMatrix;
+
+/* ToolBar positioning per Material docs: https://material-ui.com/components/app-bar/ */
