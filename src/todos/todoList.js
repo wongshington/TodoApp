@@ -2,20 +2,21 @@ import React from "react";
 import "./todo.css";
 
 import Grid from "@material-ui/core/Grid";
+import Input from "@material-ui/core/Input";
 
 import TodoItem from "./todoItem.js";
-// import TodoForm from "./todoForm.js";
 
 // list gets their own list info from storage
 class TodoList extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = this.props; // don't do this
-
+		this.state = { todos: [] };
 		this.deleteTodo = this.deleteTodo.bind(this);
 		this.handleComplete = this.handleComplete.bind(this);
-		// this.handleSubmit = this.handleSubmit.bind(this);
-		//  add this line to ensure that the delete/handleComplete function has access to the state of the parent
+	}
+
+	componentDidMount() {
+		this.setState(this.props);
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -58,22 +59,10 @@ class TodoList extends React.Component {
 		this.setState({ todos: newTodos });
 	}
 
-	// handleSubmit(e, newTodo, cb) {
-	// 	e.preventDefault();
-	// 	if (newTodo.description.length === 0) {
-	// 		alert("Description Can't Be Blank");
-	// 	} else {
-	// 		let newTodoList = this.state.todos.slice();
-	// 		newTodoList.push(newTodo);
-
-	// 		this.setState({ todos: newTodoList });
-
-	// 		cb();
-	// 		// with the addition of a state management library like Redux,
-	// 		// this is definitely something that would be placed as a callback to a promise
-	// 		// thus ensuring that it only gets called when the todo has actually been saved or accepted
-	// 	}
-	// }
+	updateListName(e) {
+		//
+		console.log("edit list name", e.target.value);
+	}
 
 	render() {
 		let todos = [];
@@ -92,7 +81,12 @@ class TodoList extends React.Component {
 
 		return (
 			<div>
-				<h3 className="header">{this.props.name}</h3>
+				<h3 className="header">
+					<Input
+						defaultValue={this.props.name}
+						onChange={(e) => this.updateListName(e)}
+					/>
+				</h3>
 				<Grid container className="list-items">
 					{todos}
 				</Grid>

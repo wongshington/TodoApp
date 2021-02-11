@@ -3,15 +3,13 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import NavBar from "./nav/navBar";
 import TodoMatrix from "./todos/todoMatrix";
-import Carousel from "./utilities/carousel";
+
 import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
 	<React.StrictMode>
 		<NavBar />
-
-		{/* <TodoMatrix /> */}
-		<Carousel />
+		<TodoMatrix />
 	</React.StrictMode>,
 	document.getElementById("root")
 );

@@ -47,7 +47,7 @@ const TodoMatrix = (props) => {
 	// }, []);
 
 	useEffect(() => {
-		console.log("todos", todos);
+		// console.log("todos", todos);
 	}, [todos]);
 
 	function validTodo(tod) {
@@ -93,13 +93,13 @@ const TodoMatrix = (props) => {
 					container
 					direction="row"
 					justify="center"
-					spacing={2}
+					spacing={4}
 					className="matrix"
 				>
 					{todoLists}
 				</Grid>
 
-				<TodoForm handleSubmit={saveTodos} />
+				<TodoForm handleSubmit={saveTodos} lists={lists} />
 			</div>
 		</div>
 	);
