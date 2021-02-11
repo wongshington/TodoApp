@@ -24,15 +24,14 @@ class TodoForm extends React.Component {
 
 	render() {
 		let { lists } = this.props;
-		console.log(lists);
 		let listOptions = Object.values(lists).map((list) => (
-			<MenuItem value={list.id}>{list.name}</MenuItem>
+			<MenuItem key={list.name + list.id} value={list.id}>
+				{list.name}
+			</MenuItem>
 		));
+
 		return (
 			<div className="todo-form">
-				{/* <Grid container justify="center" spacing={2}>
-					<Grid item xs={12}> */}
-
 				<TextField
 					// label="New Todo"
 					variant="outlined"
@@ -41,18 +40,19 @@ class TodoForm extends React.Component {
 					value={this.state.description}
 					onChange={this.update("description")}
 				/>
-				{/* </Grid>
-					<Grid item> */}
+
 				<Select
 					value={this.state.listId}
 					onChange={this.update("listId")}
 					input={<Input />}
+					className="list-select"
 				>
-					<MenuItem value={0}>New List?</MenuItem>
+					<MenuItem key={"NewList0"} value={0}>
+						New List?
+					</MenuItem>
 					{listOptions}
 				</Select>
-				{/* </Grid>
-				</Grid> */}
+
 				<Button
 					variant="contained"
 					color="primary"

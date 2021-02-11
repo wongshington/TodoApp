@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
 import ToolBar from "@material-ui/core/ToolBar";
 
-import { save } from "../utilities/localStorage";
+import { save, get } from "../utilities/localStorage";
 import TodoList from "./todoList";
 import TodoForm from "./todoForm";
 
@@ -11,14 +11,12 @@ import TodoForm from "./todoForm";
 
 // matrix creates the right amount of list components
 const TodoMatrix = (props) => {
-	let sampleTod = { complete: false, description: "Walk the Dog", listId: 1 };
-	let sampleTod2 = { complete: false, description: "Dalk the Wog", listId: 2 };
-	let sampleTod3 = { complete: false, description: "Talk dhe Wog", listId: 3 };
-	const [todos, setTodos] = useState({
-		1: [sampleTod],
-		2: [sampleTod2],
-		3: [sampleTod3],
-	});
+	// let storedTodos = get("todos");
+	// console.log(stuff);
+	// let sampleTod = { complete: false, description: "Walk the Dog", listId: 1 };
+	// let sampleTod2 = { complete: false, description: "Dalk the Wog", listId: 2 };
+	// let sampleTod3 = { complete: false, description: "Talk dhe Wog", listId: 3 };
+	const [todos, setTodos] = useState({});
 
 	let sampleList = { id: 1, name: "List #1", color: "green" };
 	let sampleList2 = { id: 2, name: "List #2", color: "purple" };
@@ -29,25 +27,18 @@ const TodoMatrix = (props) => {
 		3: sampleList3,
 	});
 
-	function setupStorage() {
-		let storage = window.localStorage;
-
-		let todos = storage.getItem("todos");
-		todos = JSON.parse(todos);
-
-		// let lists = storage.getItem("lists");
-		// lists = JSON.parse(lists);
-	}
-	// useEffect(() => {
-	// 	// comp did mount
-	// 	// setupStorage();
-	// 	() => {
-	// 		console.log("Unmounting...");
-	// 	};
-	// }, []);
+	useEffect(() => {
+		// comp did mount
+		let storedTodos = get("todos");
+		// debugger;
+		setTodos(storedTodos);
+		return () => {
+			console.log("Unmounting...");
+		};
+	}, []);
 
 	useEffect(() => {
-		// console.log("todos", todos);
+		console.log("todos - did mount", todos);
 	}, [todos]);
 
 	function validTodo(tod) {
@@ -73,18 +64,24 @@ const TodoMatrix = (props) => {
 			console.log("these are the todo errors...", errs);
 		}
 
-		save("todos", newObj);
 		setTodos(newObj);
+		save("todos", newObj);
 
 		console.log("Saved...");
 	}
 
-	let todoLists = Object.values(lists).map((list) => (
-		<Grid key={`id: ${todos[list.id]}`} item className="list">
-			<TodoList todos={todos[list.id]} name={list.name} color={list.color} />
+	let todoLists = Object.values(lists).map((list, i) => (
+		<Grid key={`id: ${i /*todos[list.id].name*/}`} item className="list">
+			<TodoList
+				todos={todos[list.id]}
+				name={list.name}
+				color={list.color}
+				editList={(newList) => setLists({ ...lists, [newList.id]: newList })}
+			/>
 		</Grid>
 	));
 
+	console.log("tods", todos);
 	return (
 		<div className="matrix">
 			<ToolBar />

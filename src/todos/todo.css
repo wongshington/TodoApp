@@ -3,71 +3,75 @@
   justify-content: space-around;
   
 }
-      body {
-        background-color: white;
-        color: black;
-        font-family: sans-serif;
-      }
-      
-      /* .header {
-        margin: 10px auto;
-        text-align: center;
-      } */
+body {
+  background-color: white;
+  color: black;
+  font-family: sans-serif;
+}
 
-      .list-items{
-        display: flex;
-        flex-direction: column;
-        background-color: white;
-        margin: 0 auto;
-        
-      }
-      
-      .todo-item{
-        margin: 5px auto;
-        border: 1px solid black;
-        width: 350px;
+/* .header {
+  margin: 10px auto;
+  text-align: center;
+} */
 
-      }
+.list-items{
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  margin: 0 auto;
+  
+}
 
-      .item-header{
-        color: white;
-        text-align: center;
-      }
-      
-      .item-buttons {
-        display: flex;
-      }
+.todo-item{
+  margin: 5px auto;
+  border: 1px solid black;
+  width: 350px;
 
-      .button{
-        font-size: 20px; 
-        margin: 5px auto;
-      }
+}
 
-      .disabled {
-        opacity: 0.5;
-      }
-      
-      .todo-form{
-        display: flex;
-        flex-direction: column;
-        width: 400px;
-        margin: 10px auto;
-      }
+.item-header{
+  color: white;
+  text-align: center;
+}
 
-      .form-field{
-        font-size: 20px;
-        text-align: center;
-      }
+.item-buttons {
+  display: flex;
+}
 
-      .submit-button{
-        font-size: 20px;
-        margin: 5px auto;
-        width: 400px;
-        /* border: 1px solid white; */
-        color: white;
-        background-color: #0D5863;
-        text-align: center;
-        padding-top: 8px;
-        padding-bottom: 8px;
-      }
+.button{
+  font-size: 20px; 
+  margin: 5px auto;
+}
 
+.disabled {
+  opacity: 0.5;
+}
+
+.todo-form{
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  margin: 10px auto;
+}
+
+.form-field{
+  font-size: 20px;
+  text-align: center;
+}
+
+.submit-button{
+  font-size: 20px;
+  margin: 5px auto;
+  width: 400px;
+  /* border: 1px solid white; */
+  color: white;
+  background-color: #0D5863;
+  text-align: center;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.list-select{
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
