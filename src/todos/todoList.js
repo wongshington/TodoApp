@@ -10,17 +10,21 @@ import TodoItem from "./todoItem.js";
 class TodoList extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { todos: [] };
+		this.state = { todos: [], name: "" };
 		this.deleteTodo = this.deleteTodo.bind(this);
 		this.handleComplete = this.handleComplete.bind(this);
 	}
 
 	componentDidMount() {
-		this.setState(this.props);
+		let state = {
+			...this.props.list,
+			color: this.props.color,
+			todos: this.props.todos,
+		};
+		this.setState(state);
 	}
 
 	componentWillReceiveProps(nextProps) {
-		console.log("nextProps", nextProps);
 		if (nextProps.todos) {
 			this.setState(nextProps);
 		}
@@ -60,8 +64,10 @@ class TodoList extends React.Component {
 	}
 
 	updateListName(e) {
-		//
-		console.log("edit list name", e.target.value);
+		console.log(e.target.value);
+		let { color, id } = this.state;
+		let newList = { name: e.target.value, color, id };
+		this.props.editList(newList);
 	}
 
 	render() {
@@ -78,13 +84,15 @@ class TodoList extends React.Component {
 				</Grid>
 			));
 		}
-
+		console.log(this.state.name);
 		return (
 			<div>
 				<h3 className="header">
 					<Input
-						defaultValue={this.props.name}
-						onChange={(e) => this.updateListName(e)}
+						value={this.state.name}
+						// placeholder={this.state.name}
+						onChange={(e) => this.setState({ name: e.target.value })}
+						onBlur={(e) => this.updateListName(e)}
 					/>
 				</h3>
 				<Grid container className="list-items">

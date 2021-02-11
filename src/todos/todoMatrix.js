@@ -38,7 +38,7 @@ const TodoMatrix = (props) => {
 	}, []);
 
 	useEffect(() => {
-		console.log("todos - did mount", todos);
+		// console.log("todos - did mount", todos);
 	}, [todos]);
 
 	function validTodo(tod) {
@@ -70,18 +70,27 @@ const TodoMatrix = (props) => {
 		console.log("Saved...");
 	}
 
+	function saveLists(newList) {
+		let newObj = JSON.parse(JSON.stringify(lists));
+		if (!newObj) newObj = { ...lists, [newList.id]: newList };
+
+		newObj[newList.id] = newList;
+
+		setLists(newObj);
+		save("lists", newObj);
+	}
+
 	let todoLists = Object.values(lists).map((list, i) => (
 		<Grid key={`id: ${i /*todos[list.id].name*/}`} item className="list">
 			<TodoList
 				todos={todos[list.id]}
-				name={list.name}
+				list={list}
 				color={list.color}
-				editList={(newList) => setLists({ ...lists, [newList.id]: newList })}
+				editList={(newList) => saveLists(newList)}
 			/>
 		</Grid>
 	));
 
-	console.log("tods", todos);
 	return (
 		<div className="matrix">
 			<ToolBar />
