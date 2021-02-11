@@ -17,10 +17,11 @@ const TodoMatrix = (props) => {
 	useEffect(() => {
 		// comp did mount
 		let storedTodos = get("todos");
-
+		if (!storedTodos) storedTodos = {};
 		setTodos(storedTodos);
-		let storedLists = get("lists");
 
+		let storedLists = get("lists");
+		if (!storedLists) storedLists = {};
 		setLists(storedLists);
 		return () => {
 			console.log("Unmounting...");
@@ -41,11 +42,21 @@ const TodoMatrix = (props) => {
 	function saveTodos(newTodo) {
 		let newObj = JSON.parse(JSON.stringify(todos));
 		const errs = validTodo(newTodo);
-
-		if (errs.length == 0) {
+		if (!Object.keys(lists).includes(newTodo.listId)) {
+			let newList = {
+				id: newTodo.listId,
+				name: "New Todo List",
+				color: "green",
+			};
+			saveLists(newList);
+		}
+		if (errs.length === 0) {
 			// save todo into todos
-
-			newObj[newTodo.listId].push(newTodo);
+			if (newObj[newTodo.listId]) {
+				newObj[newTodo.listId].push(newTodo);
+			} else {
+				newObj[newTodo.listId] = [newTodo];
+			}
 		} else {
 			console.log("these are the todo errors...", errs);
 		}
@@ -61,11 +72,12 @@ const TodoMatrix = (props) => {
 		if (!newObj) newObj = { ...lists, [newList.id]: newList };
 
 		newObj[newList.id] = newList;
-
+		debugger;
 		setLists(newObj);
 		save("lists", newObj);
 	}
-
+	console.log(lists);
+	// debugger;
 	let todoLists = Object.values(lists).map((list, i) => (
 		<Grid key={`id: ${i /*todos[list.id].name*/}`} item className="list">
 			<TodoList
@@ -90,7 +102,6 @@ const TodoMatrix = (props) => {
 				>
 					{todoLists}
 				</Grid>
-
 				<TodoForm handleSubmit={saveTodos} lists={lists} />
 			</div>
 		</div>

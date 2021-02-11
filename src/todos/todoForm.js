@@ -1,5 +1,6 @@
 import React from "react";
 import "./todo.css";
+import { nextListId } from "../utilities/todoHelper";
 
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -30,6 +31,8 @@ class TodoForm extends React.Component {
 			</MenuItem>
 		));
 
+		let newListId = nextListId(lists);
+
 		return (
 			<div className="todo-form">
 				<TextField
@@ -47,7 +50,7 @@ class TodoForm extends React.Component {
 					input={<Input />}
 					className="list-select"
 				>
-					<MenuItem key={"NewList0"} value={0}>
+					<MenuItem key={"NewList0"} value={newListId}>
 						New List?
 					</MenuItem>
 					{listOptions}
