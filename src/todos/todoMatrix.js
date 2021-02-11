@@ -11,35 +11,21 @@ import TodoForm from "./todoForm";
 
 // matrix creates the right amount of list components
 const TodoMatrix = (props) => {
-	// let storedTodos = get("todos");
-	// console.log(stuff);
-	// let sampleTod = { complete: false, description: "Walk the Dog", listId: 1 };
-	// let sampleTod2 = { complete: false, description: "Dalk the Wog", listId: 2 };
-	// let sampleTod3 = { complete: false, description: "Talk dhe Wog", listId: 3 };
 	const [todos, setTodos] = useState({});
-
-	let sampleList = { id: 1, name: "List #1", color: "green" };
-	let sampleList2 = { id: 2, name: "List #2", color: "purple" };
-	let sampleList3 = { id: 3, name: "List #3", color: "cyan" };
-	const [lists, setLists] = useState({
-		1: sampleList,
-		2: sampleList2,
-		3: sampleList3,
-	});
+	const [lists, setLists] = useState({});
 
 	useEffect(() => {
 		// comp did mount
 		let storedTodos = get("todos");
-		// debugger;
+
 		setTodos(storedTodos);
+		let storedLists = get("lists");
+
+		setLists(storedLists);
 		return () => {
 			console.log("Unmounting...");
 		};
 	}, []);
-
-	useEffect(() => {
-		// console.log("todos - did mount", todos);
-	}, [todos]);
 
 	function validTodo(tod) {
 		let errs = [];

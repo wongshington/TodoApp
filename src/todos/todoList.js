@@ -43,7 +43,7 @@ class TodoList extends React.Component {
 
 	handleComplete(e, idx) {
 		e.preventDefault();
-		console.log("toggle complete");
+
 		let newTodos = this.state.todos.slice();
 		// copy todos
 
@@ -64,7 +64,6 @@ class TodoList extends React.Component {
 	}
 
 	updateListName(e) {
-		console.log(e.target.value);
 		let { color, id } = this.state;
 		let newList = { name: e.target.value, color, id };
 		this.props.editList(newList);
@@ -84,13 +83,12 @@ class TodoList extends React.Component {
 				</Grid>
 			));
 		}
-		console.log(this.state.name);
+
 		return (
 			<div>
 				<h3 className="header">
 					<Input
 						value={this.state.name}
-						// placeholder={this.state.name}
 						onChange={(e) => this.setState({ name: e.target.value })}
 						onBlur={(e) => this.updateListName(e)}
 					/>
