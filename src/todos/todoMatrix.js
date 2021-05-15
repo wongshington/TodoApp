@@ -42,6 +42,7 @@ const TodoMatrix = (props) => {
 	function saveTodos(newTodo) {
 		let newObj = JSON.parse(JSON.stringify(todos));
 		const errs = validTodo(newTodo);
+
 		if (!Object.keys(lists).includes(newTodo.listId)) {
 			let newList = {
 				id: newTodo.listId,
@@ -76,8 +77,6 @@ const TodoMatrix = (props) => {
 		setLists(newObj);
 		save("lists", newObj);
 	}
-	console.log(lists);
-	// debugger;
 	let todoLists = Object.values(lists).map((list, i) => (
 		<Grid key={`id: ${i /*todos[list.id].name*/}`} item className="list">
 			<TodoList
